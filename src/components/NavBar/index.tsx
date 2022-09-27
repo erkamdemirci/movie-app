@@ -8,7 +8,9 @@ interface Props {
 const NavBar = ({ setCurrentLocale }: Props) => {
   return (
     <S.NavBarContainer>
-      <div className="logo">MovieDB</div>
+      <a href="/" className="logo">
+        MovieDB
+      </a>
       <div className="actions">
         <button
           onClick={() => {

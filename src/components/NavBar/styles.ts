@@ -8,6 +8,10 @@ export const NavBarContainer = styled.div`
   margin: 0 auto;
   padding: 20px 10px;
 
+  a {
+    text-decoration: none;
+  }
+
   .logo {
     margin-right: auto;
     font-weight: 900;
@@ -19,7 +23,7 @@ export const NavBarContainer = styled.div`
       border: none;
 
       span {
-        font-size: 2rem;
+        font-size: 2.5rem;
       }
     }
   }

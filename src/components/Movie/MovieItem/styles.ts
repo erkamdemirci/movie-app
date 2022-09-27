@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
-export const MovieItemContainer = styled.div`
+export const MovieItemContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   flex-basis: 20%;
@@ -18,6 +19,11 @@ export const MovieItemContainer = styled.div`
       border-top-left-radius: 0;
       overflow: hidden;
       width: 100%;
+    }
+
+    img {
+      aspect-ratio: 2/3;
+      object-fit: cover;
     }
 
     .curtain {

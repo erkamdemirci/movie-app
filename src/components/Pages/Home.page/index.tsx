@@ -1,36 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useIntl } from 'react-intl';
+
+import * as S from './styles';
+import MovieList from '../../Movie/MovieList/index';
+import SearchPage from '../Search.page';
+import FiltersBar from '../../Filters';
 
 import { getPopularMovies } from '../../../api';
-import MovieList from '../../Movie/MovieList/index';
-import SearchBar from '../../SearchBar';
-import FiltersBar from '../../Filters';
-import * as S from './styles';
+import { MovieType } from '../../Movie/MovieItem';
 
 const HomePage = () => {
-  const [movies, setMovies] = useState([]);
-  const { data, fetchNextPage } = useInfiniteQuery(['popular-movies'], getPopularMovies, {
-    getNextPageParam: (_lastPage, pages) => {
-      if (pages.length < 4) return pages.length + 1;
-      else return undefined;
-    }
-  });
+  const intl = useIntl();
+
+  const [isSearched, setIsSearched] = useState<boolean>(false);
+  const [page, setPage] = useState(1);
+  const [movies, setMovies] = useState<MovieType[] | undefined>(undefined);
+
+  const { isLoading, data } = useQuery(['popular-movies', page], getPopularMovies);
 
   useEffect(() => {
-    if (!data?.pages) return;
-    setMovies((prev) => prev.concat(data?.pages[data.pages.length - 1]));
-  }, [data?.pages]);
+    if (!data) return;
+    if (data.page === 1) setMovies(data.results);
+    else setMovies((prev) => prev?.concat(data.results));
+  }, [data]);
 
-  useEffect(() => {
-    console.log(movies);
-  }, [movies]);
+  const fetchMore = () => {
+    setPage((prev) => prev + 1);
+  };
 
   return (
     <S.HomeContainer>
-      <SearchBar />
       <FiltersBar />
-      <MovieList fetchNextPage={fetchNextPage} movies={movies} />
+      <SearchPage setIsSearched={setIsSearched} />
+      {!isSearched && (
+        <MovieList
+          title={`${intl.formatMessage({ id: 'popular_movies' })}`}
+          isLoading={isLoading}
+          fetchNextPage={fetchMore}
+          totalResults={data?.total_results}
+          movies={movies}
+        />
+      )}
     </S.HomeContainer>
   );
 };

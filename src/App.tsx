@@ -1,25 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Layout from './components/Layout';
+
+import { IntlProvider } from 'react-intl';
+import { LOCALES } from './i18n/locales';
+import { messages } from './i18n/messages';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import TestPage from './components/Pages/Test.page';
+import HomePage from './components/Pages/Home.page';
+
+const queryClient = new QueryClient();
 
 function App() {
+  const [currentLocale, setCurrentLocale] = useState(LOCALES.TURKISH);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <IntlProvider messages={messages[currentLocale]} locale={currentLocale} defaultLocale={LOCALES.TURKISH}>
+      <QueryClientProvider client={queryClient}>
+        <Layout setCurrentLocale={setCurrentLocale}>
+          <HomePage />
+          <TestPage />
+        </Layout>
+      </QueryClientProvider>
+    </IntlProvider>
   );
 }
 

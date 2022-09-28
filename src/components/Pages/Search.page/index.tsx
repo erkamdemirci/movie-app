@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from './styles';
 import { useIntl } from 'react-intl';
 import { useQuery } from '@tanstack/react-query';
+import { Dispatch, SetStateAction } from 'react';
 
 import { SearchIcon } from '../../Icons';
 import MovieList from '../../Movie/MovieList';
 import { getSearchedMovies } from '../../../api';
-import { Dispatch, SetStateAction } from 'react';
 import { MovieType } from '../../Movie/MovieItem';
 
 interface Props {
@@ -17,7 +17,7 @@ const SearchPage = ({ setIsSearched }: Props) => {
   const intl = useIntl();
   const [value, setValue] = useState('');
   const [page, setPage] = useState(1);
-  const [movies, setMovies] = useState<MovieType[] | undefined>(undefined);
+  const [movies, setMovies] = useState<MovieType[]>();
   const [searchQuery, setSearchQuery] = useState('');
   const { isLoading, data, refetch } = useQuery(['search-query', searchQuery, page], getSearchedMovies, { enabled: !!searchQuery });
 
@@ -63,6 +63,7 @@ const SearchPage = ({ setIsSearched }: Props) => {
 
       {movies && searchQuery ? (
         <MovieList
+          isSearched={true}
           title={`${intl.formatMessage({ id: 'searched_text' })}: ${searchQuery}`}
           isLoading={isLoading}
           fetchNextPage={fetchMore}

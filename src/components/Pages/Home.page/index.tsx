@@ -5,19 +5,20 @@ import { useIntl } from 'react-intl';
 import * as S from './styles';
 import MovieList from '../../Movie/MovieList/index';
 import SearchPage from '../Search.page';
-import FiltersBar from '../../Filters';
 
 import { getPopularMovies } from '../../../api';
 import { MovieType } from '../../Movie/MovieItem';
+import { useStoreContext } from '../../../context';
 
 const HomePage = () => {
   const intl = useIntl();
+  const { sortBy } = useStoreContext();
 
   const [isSearched, setIsSearched] = useState<boolean>(false);
   const [page, setPage] = useState(1);
   const [movies, setMovies] = useState<MovieType[] | undefined>(undefined);
 
-  const { isLoading, data } = useQuery(['popular-movies', page], getPopularMovies);
+  const { isLoading, data } = useQuery(['popular-movies', page, sortBy], getPopularMovies);
 
   useEffect(() => {
     if (!data) return;
@@ -25,13 +26,17 @@ const HomePage = () => {
     else setMovies((prev) => prev?.concat(data.results));
   }, [data]);
 
+  useEffect(() => {
+    if (!sortBy) return;
+    setPage(1);
+  }, [sortBy]);
+
   const fetchMore = () => {
     setPage((prev) => prev + 1);
   };
 
   return (
     <S.HomeContainer>
-      <FiltersBar />
       <SearchPage setIsSearched={setIsSearched} />
       {!isSearched && (
         <MovieList
@@ -39,7 +44,7 @@ const HomePage = () => {
           isLoading={isLoading}
           fetchNextPage={fetchMore}
           totalResults={data?.total_results}
-          movies={movies}
+          movies={movies ?? []}
         />
       )}
     </S.HomeContainer>

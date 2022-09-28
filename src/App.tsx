@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Layout from './components/Layout';
+import { StoreProvider } from './context';
 
 import { IntlProvider } from 'react-intl';
 import { LOCALES } from './i18n/locales';
@@ -17,12 +18,14 @@ function App() {
 
   return (
     <IntlProvider messages={messages[currentLocale]} locale={currentLocale} defaultLocale={LOCALES.TURKISH}>
-      <QueryClientProvider client={queryClient}>
-        <Layout setCurrentLocale={setCurrentLocale}>
-          <HomePage />
-          <TestPage />
-        </Layout>
-      </QueryClientProvider>
+      <StoreProvider>
+        <QueryClientProvider client={queryClient}>
+          <Layout setCurrentLocale={setCurrentLocale}>
+            <HomePage />
+            <TestPage />
+          </Layout>
+        </QueryClientProvider>
+      </StoreProvider>
     </IntlProvider>
   );
 }

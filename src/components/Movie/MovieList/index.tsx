@@ -21,7 +21,7 @@ interface Props {
 const MovieList = ({ movies, fetchNextPage, isLoading, title, totalResults = 0, isSearched = false }: Props) => {
   const intl = useIntl();
 
-  const { sortByHandler } = useStoreContext();
+  const { sortBy, sortByHandler } = useStoreContext();
 
   if (isLoading)
     <S.Loading>
@@ -33,7 +33,7 @@ const MovieList = ({ movies, fetchNextPage, isLoading, title, totalResults = 0, 
         <h1>{title}</h1>
         {!isSearched && (
           <S.Sorting>
-            <select onChange={(e) => sortByHandler(e.target.value)}>
+            <select defaultValue={sortBy ?? ''} onChange={(e) => sortByHandler(e.target.value)}>
               <option value="">{`${intl.formatMessage({ id: 'sort_by_text' })}:`}</option>
               <option value="popularity.asc">{`${intl.formatMessage({ id: 'popularity_text' })}:`} ↑</option>
               <option value="popularity.desc">{`${intl.formatMessage({ id: 'popularity_text' })}:`} ↓</option>

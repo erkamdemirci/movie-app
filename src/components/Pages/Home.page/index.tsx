@@ -15,10 +15,10 @@ const HomePage = () => {
   const { sortBy } = useStoreContext();
 
   const [isSearched, setIsSearched] = useState<boolean>(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
   const [movies, setMovies] = useState<MovieType[] | undefined>(undefined);
 
-  const { isLoading, data } = useQuery(['popular-movies', page, sortBy], getPopularMovies);
+  const { isLoading, data } = useQuery(['popular-movies', page, sortBy], getPopularMovies, { staleTime: 30000 });
 
   useEffect(() => {
     if (!data) return;
@@ -32,7 +32,7 @@ const HomePage = () => {
   }, [sortBy]);
 
   const fetchMore = () => {
-    setPage((prev) => prev + 1);
+    setPage((prev) => (prev ? prev + 1 : 1));
   };
 
   return (

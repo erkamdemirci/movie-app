@@ -23,3 +23,13 @@ export const getSearchedMovies = ({ queryKey }: QueryProps) => {
     .get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDBKEY}&query=${searchQuery}&page=${page}`)
     .then((res) => res.data);
 };
+
+export const getMovieDetails = ({ queryKey }: QueryProps) => {
+  const movieId = queryKey[1];
+  return axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_TMDBKEY}`).then((res) => res.data);
+};
+
+export const getMovieCast = ({ queryKey }: QueryProps) => {
+  const movieId = queryKey[1];
+  return axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${process.env.REACT_APP_TMDBKEY}`).then((res) => res.data.cast);
+};

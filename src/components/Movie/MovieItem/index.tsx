@@ -1,9 +1,10 @@
-import React from 'react';
 import * as S from './styles';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 export type MovieType = {
   title: string;
+  id: number;
   vote_count: number;
   popularity: number;
   poster_path: string;
@@ -23,19 +24,19 @@ const MovieItem = ({ movie }: Props) => {
           <FormattedMessage id="vote_count" values={{ vote_count: movie.vote_count }} />
         </span>
       </div>
-      <a href="/" className="poster">
+      <Link to={`/details/${movie.id}`} className="poster">
         <div className="curtain">
           <span>Show Details</span>
         </div>
         <img
           src={
             movie.poster_path
-              ? `https://image.tmdb.org/t/p/w500//${movie.poster_path}`
+              ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
               : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-1.jpg'
           }
           alt=""
         />
-      </a>
+      </Link>
       <span className="title">{movie.title}</span>
     </S.MovieItemContainer>
   );

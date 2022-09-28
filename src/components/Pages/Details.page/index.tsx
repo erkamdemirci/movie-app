@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import * as S from './styles';
 import { FormattedMessage } from 'react-intl';
 import { useQuery } from '@tanstack/react-query';

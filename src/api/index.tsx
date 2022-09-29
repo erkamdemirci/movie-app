@@ -5,7 +5,6 @@ interface QueryProps {
 }
 
 export const getPopularMovies = ({ queryKey }: QueryProps) => {
-  console.log('getPopularMovies api hook');
   const page = queryKey[1];
   const sortBy = queryKey[2];
   return axios

@@ -34,13 +34,14 @@ npm run start
     │   │   │   └── MovieList
     │   │   └── Pages
     │   │       ├── Details.page      # Movie Details
-    │   │       ├── Home.page         # The home for listing popular movies and search.
-    │   │       └── Search.page       # Search Component
-    │   ├── context         # Used for store values (sorting)
-    │   ├── hooks           # Used for context
-    │   ├── i18n            # Language (react-intl)
-    │   ├── styles          # Global styles
-    │   └── ?               #
+    │   │       ├── Home.page         # The home for handling routing.
+    │   │       ├── Movies.page       # A component for listing popular movies and search.
+    │   │       └── Search.page       # A component that lists movies according to the search query.
+    │   ├── context                   # Used for store values (sorting)
+    │   ├── hooks                     # Used for context
+    │   ├── i18n                      # Language (react-intl)
+    │   ├── styles                    # Global styles
+    │   └── ?tests
     └── ...
 
 ## **Developed with**

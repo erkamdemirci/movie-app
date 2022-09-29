@@ -5,17 +5,11 @@ import { useStore } from '../hooks';
 
 type storeContextType = {
   sortBy: string;
-  searchQuery: string;
-
-  searchHandler: (value: string) => void;
   sortByHandler: (value: string) => void;
 };
 
 const storeContextDefaults: storeContextType = {
   sortBy: '',
-  searchQuery: '',
-
-  searchHandler: () => {},
   sortByHandler: () => {}
 };
 

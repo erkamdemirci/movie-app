@@ -2,12 +2,17 @@ import { useState } from 'react';
 
 export const useStore = () => {
   const [sortBy, setSortBy] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const sortByHandler = (value: any) => {
     setSortBy(value);
   };
 
-  return { sortBy, sortByHandler };
+  const searchHandler = (value: any) => {
+    setSearchQuery(value);
+  };
+
+  return { sortBy, sortByHandler, searchQuery, searchHandler };
 };
 
 export default useStore;

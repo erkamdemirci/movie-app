@@ -2,43 +2,18 @@ import { useEffect, useState } from 'react';
 import * as S from './styles';
 import { useIntl } from 'react-intl';
 import { useQuery } from '@tanstack/react-query';
-import { Dispatch, SetStateAction } from 'react';
+import { useParams } from 'react-router-dom';
 
-import { SearchIcon } from '../../Icons';
 import MovieList from '../../Movie/MovieList';
 import { getSearchedMovies } from '../../../api';
 import { MovieType } from '../../Movie/MovieItem';
 
-interface Props {
-  setIsSearched: Dispatch<SetStateAction<boolean>>;
-}
-
-const SearchPage = ({ setIsSearched }: Props) => {
+const SearchPage = () => {
   const intl = useIntl();
-  const [value, setValue] = useState('');
   const [page, setPage] = useState(1);
   const [movies, setMovies] = useState<MovieType[]>();
-  const [searchQuery, setSearchQuery] = useState('');
-  const { isLoading, data, refetch } = useQuery(['search-query', searchQuery, page], getSearchedMovies, { enabled: !!searchQuery });
-
-  useEffect(() => {
-    const delayFn = setTimeout(() => {
-      setSearchQuery(value);
-      setPage(1);
-    }, 350);
-    return () => clearTimeout(delayFn);
-  }, [value]);
-
-  useEffect(() => {
-    if (!searchQuery) {
-      setIsSearched(false);
-      setMovies(undefined);
-      return;
-    }
-
-    refetch();
-    setIsSearched(true);
-  }, [searchQuery, refetch, setIsSearched]);
+  let { query } = useParams();
+  const { isLoading, data } = useQuery(['search-query', query, page], getSearchedMovies, { enabled: !!query });
 
   useEffect(() => {
     if (!data) return;
@@ -46,31 +21,20 @@ const SearchPage = ({ setIsSearched }: Props) => {
     else setMovies((prev) => prev?.concat(data.results));
   }, [data]);
 
-  const inputChangeHandler = (e: any) => {
-    setValue(e.target.value);
-  };
-
   const fetchMore = () => {
     setPage((prev) => prev + 1);
   };
 
   return (
     <S.SearchPageContainer>
-      <S.SearchBarContainer>
-        <SearchIcon />
-        <input type="text" onChange={inputChangeHandler} placeholder={`${intl.formatMessage({ id: 'search_placeholder' })}`} />
-      </S.SearchBarContainer>
-
-      {movies && searchQuery ? (
-        <MovieList
-          isSearched={true}
-          title={`${intl.formatMessage({ id: 'searched_text' })}: ${searchQuery}`}
-          isLoading={isLoading}
-          fetchNextPage={fetchMore}
-          totalResults={data?.total_results}
-          movies={movies}
-        />
-      ) : null}
+      <MovieList
+        isSearched={true}
+        title={`${intl.formatMessage({ id: 'searched_text' })}: ${query}`}
+        isLoading={isLoading}
+        fetchNextPage={fetchMore}
+        totalResults={data?.total_results}
+        movies={movies ?? []}
+      />
     </S.SearchPageContainer>
   );
 };

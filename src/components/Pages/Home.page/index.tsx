@@ -1,54 +1,40 @@
-import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import * as S from './styles';
-import MovieList from '../../Movie/MovieList/index';
+import MoviesPage from '../Movies.page';
+import { SearchIcon } from '../../Icons';
 import SearchPage from '../Search.page';
 
-import { getPopularMovies } from '../../../api';
-import { MovieType } from '../../Movie/MovieItem';
-import { useStoreContext } from '../../../context';
-
-const HomePage = () => {
+const Homepage = () => {
   const intl = useIntl();
-  const { sortBy } = useStoreContext();
+  const navigate = useNavigate();
+  const { page } = useParams();
+  const [searchValue, setSearchValue] = useState('');
 
-  const [isSearched, setIsSearched] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(1);
-  const [movies, setMovies] = useState<MovieType[] | undefined>(undefined);
+  const inputChangeHandler = (e: any) => {
+    setSearchValue(e.target.value);
+  };
 
-  const { isLoading, data } = useQuery(['popular-movies', page, sortBy], getPopularMovies, { staleTime: 30000 });
-
-  useEffect(() => {
-    if (!data) return;
-    if (data.page === 1) setMovies(data.results);
-    else setMovies((prev) => prev?.concat(data.results));
-  }, [data]);
-
-  useEffect(() => {
-    if (!sortBy) return;
-    setPage(1);
-  }, [sortBy]);
-
-  const fetchMore = () => {
-    setPage((prev) => (prev ? prev + 1 : 1));
+  const searchHandler = (e: any) => {
+    e.preventDefault();
+    if (!searchValue) return;
+    navigate(`/search/${searchValue}`);
   };
 
   return (
     <S.HomeContainer>
-      <SearchPage setIsSearched={setIsSearched} />
-      {!isSearched && (
-        <MovieList
-          title={`${intl.formatMessage({ id: 'popular_movies' })}`}
-          isLoading={isLoading}
-          fetchNextPage={fetchMore}
-          totalResults={data?.total_results}
-          movies={movies ?? []}
-        />
+      {!(page === 'details') && (
+        <S.SearchBarContainer>
+          <SearchIcon />
+          <input type="text" value={searchValue} onChange={inputChangeHandler} placeholder={`${intl.formatMessage({ id: 'search_placeholder' })}`} />
+          <button type="submit" onClick={searchHandler}>{`${intl.formatMessage({ id: 'search_text' })}`}</button>
+        </S.SearchBarContainer>
       )}
+      {page === 'search' ? <SearchPage /> : <MoviesPage />}
     </S.HomeContainer>
   );
 };
 
-export default HomePage;
+export default Homepage;

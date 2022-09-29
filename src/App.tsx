@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import Layout from './components/Layout';
 import { StoreProvider } from './context';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 import { IntlProvider } from 'react-intl';
 import { LOCALES } from './i18n/locales';
@@ -9,8 +8,8 @@ import { messages } from './i18n/messages';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import HomePage from './components/Pages/Home.page';
-import DetailsPage from './components/Pages/Details.page';
+import Layout from './components/Layout';
+import Homepage from './components/Pages/Home.page';
 
 const queryClient = new QueryClient();
 
@@ -21,12 +20,14 @@ function App() {
     <IntlProvider messages={messages[currentLocale]} locale={currentLocale} defaultLocale={LOCALES.TURKISH}>
       <StoreProvider>
         <QueryClientProvider client={queryClient}>
-          <Layout setCurrentLocale={setCurrentLocale}>
+          <BrowserRouter>
             <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/details/:movieId" element={<DetailsPage />} />
+              <Route path="/" element={<Layout setCurrentLocale={setCurrentLocale} />}>
+                <Route index element={<Homepage />} />
+                <Route path="/:page/:query" element={<Homepage />} />
+              </Route>
             </Routes>
-          </Layout>
+          </BrowserRouter>
         </QueryClientProvider>
       </StoreProvider>
     </IntlProvider>

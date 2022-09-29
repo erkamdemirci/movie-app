@@ -1,15 +1,15 @@
-import LanguageToggler from '../NavBar';
+import NavBar from '../NavBar';
+import { Outlet } from 'react-router-dom';
 
 interface Props {
-  children: React.ReactNode;
   setCurrentLocale: any;
 }
 
-const Layout = ({ children, setCurrentLocale }: Props) => {
+const Layout = ({ setCurrentLocale }: Props) => {
   return (
     <div>
-      <LanguageToggler setCurrentLocale={setCurrentLocale} />
-      {children}
+      <NavBar setCurrentLocale={setCurrentLocale} />
+      <Outlet />
     </div>
   );
 };

@@ -4,6 +4,7 @@ export const messages = {
   [LOCALES.ENGLISH]: {
     search_placeholder: 'Search a movie...',
     searched_text: 'Searched',
+    search_text: 'Search',
     popular_movies: 'Popular Movies',
     no_result: 'No results...',
     sort_by_text: 'Sort By',
@@ -20,6 +21,7 @@ export const messages = {
   [LOCALES.TURKISH]: {
     search_placeholder: 'Bir film arayın...',
     searched_text: 'Arama',
+    search_text: 'Ara',
     popular_movies: 'Popüler Filmler',
     no_result: 'Sonuç yok...',
     sort_by_text: 'Sırala',

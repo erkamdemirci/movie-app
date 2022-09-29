@@ -8,10 +8,10 @@ import { useNavigate } from 'react-router-dom';
 const DetailsPage = () => {
   const navigate = useNavigate();
 
-  let { movieId } = useParams();
+  let { query } = useParams();
 
-  const { isLoading, data: movie } = useQuery(['movie-details', movieId], getMovieDetails);
-  const { isLoading: castLoading, data: castList } = useQuery(['movie-cast', movieId], getMovieCast);
+  const { isLoading, data: movie } = useQuery(['movie-details', query], getMovieDetails);
+  const { isLoading: castLoading, data: castList } = useQuery(['movie-cast', query], getMovieCast);
 
   if (isLoading)
     return (
@@ -88,8 +88,8 @@ const DetailsPage = () => {
           <FormattedMessage id="cast_list" />:
         </h1>
         {castList
-          ? castList?.map((person: any) => (
-              <div className="person">
+          ? castList?.map((person: any, idx: number) => (
+              <div key={idx} className="person">
                 <img
                   loading="lazy"
                   src={

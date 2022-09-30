@@ -81,4 +81,30 @@ export const MovieItemContainer = styled(motion.div)`
     padding: 0 10px;
     text-align: center;
   }
+
+  @media only screen and (max-width: 1024px) {
+    flex-basis: 25%;
+  }
+
+  @media only screen and (max-width: 768px) {
+    flex-basis: 33%;
+  }
+
+  @media only screen and (max-width: 640px) {
+    flex-basis: 50%;
+
+    .popularity {
+      .point {
+        font-size: 0.75rem;
+      }
+
+      .vote {
+        font-size: 0.75rem;
+      }
+    }
+
+    .title {
+      font-size: 0.85rem;
+    }
+  }
 `;

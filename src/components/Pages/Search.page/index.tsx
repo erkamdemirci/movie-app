@@ -13,7 +13,7 @@ const SearchPage = () => {
   const [page, setPage] = useState(1);
   const [movies, setMovies] = useState<MovieType[]>();
   let { query } = useParams();
-  const { isLoading, data } = useQuery(['search-query', query, page], getSearchedMovies, { enabled: !!query });
+  const { isLoading, data } = useQuery(['search-query', query, page], getSearchedMovies, { staleTime: 30000, enabled: !!query });
 
   useEffect(() => {
     if (!data) return;

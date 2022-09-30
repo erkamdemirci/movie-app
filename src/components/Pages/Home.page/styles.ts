@@ -57,4 +57,42 @@ export const SearchBarContainer = styled.form`
       opacity: 50%;
     }
   }
+
+  @media only screen and (max-width: 1024px) {
+    height: 60px;
+    svg {
+      width: 25px;
+      height: 25px;
+    }
+
+    input {
+      font-size: 1.15rem;
+      &::placeholder {
+        font-size: 1.15rem;
+      }
+    }
+
+    button {
+      padding: 0 25px;
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    height: 50px;
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    input {
+      font-size: 1rem;
+      &::placeholder {
+        font-size: 1rem;
+      }
+    }
+
+    button {
+      padding: 0 15px;
+    }
+  }
 `;

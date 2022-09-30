@@ -4,8 +4,7 @@ import { motion } from 'framer-motion';
 export const MoviesContainer = styled(motion.div)`
   h1 {
     margin: 0;
-    margin-bottom: 30px;
-    text-align: center;
+    margin-left: 15px;
   }
 
   .infiniteContainer {
@@ -13,17 +12,40 @@ export const MoviesContainer = styled(motion.div)`
     flex-direction: row;
     flex-wrap: wrap;
   }
+
+  @media only screen and (max-width: 1024px) {
+    h1 {
+      font-size: 1.75rem;
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    h1 {
+      font-size: 1.25rem;
+    }
+  }
 `;
 
 export const Header = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+
+  @media only screen and (max-width: 1024px) {
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media only screen and (max-width: 640px) {
+    flex-direction: column;
+  }
 `;
 
 export const Sorting = styled.div`
-  width: 200px;
-
   select  {
     border: 2px solid black;
     border-radius: 5px;
@@ -39,6 +61,22 @@ export const Sorting = styled.div`
     background-position-y: 50%;
     padding: 1rem;
     padding-right: 2.5rem;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    select {
+    }
+  }
+
+  @media only screen and (max-width: 640px) {
+    width: 100%;
+
+    select {
+      margin-bottom: 10px;
+      width: 100%;
+      padding-right: 0;
+      background-position-x: 95%;
+    }
   }
 `;
 
